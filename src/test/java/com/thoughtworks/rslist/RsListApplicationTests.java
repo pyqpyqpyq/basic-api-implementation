@@ -27,6 +27,12 @@ class RsListApplicationTests {
                 .andExpect(status().isOk())
                 .andExpect(content().string("第三条事件"));
     }
+    @Test
+    void should_get_arange_of_hs() throws Exception {
+        mockMvc.perform(get("/hs/rg?a=1&b=3"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("[第一条事件, 第二条事件, 第三条事件]"));
+    }
 
 
 }
