@@ -78,4 +78,35 @@ class RsListApplicationTests {
                 .andExpect(jsonPath("$[3].key",is("经济")));
     }
 
+    @Test
+    void should_modified_hs() throws Exception {
+        mockMvc.perform(get("/hs/list"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(3)))
+                .andExpect(jsonPath("$[0].hs_name",is("第一条事件")))
+                .andExpect(jsonPath("$[0].key",is("无分类")))
+                .andExpect(jsonPath("$[1].hs_name",is("第二条事件")))
+                .andExpect(jsonPath("$[1].key",is("无分类")))
+                .andExpect(jsonPath("$[2].hs_name",is("第三条事件")))
+                .andExpect(jsonPath("$[2].key",is("无分类")));
+
+
+//        int num=1;
+//        String hs_name="哈哈";
+//        String key="传参成功";)
+        mockMvc.perform(post("/hs/modify?a=1&b=哈哈&c=传参成功"))
+                .andExpect(status().isOk());
+//
+//        mockMvc.perform(get("/hs/rg?a=1&b=3"))
+        mockMvc.perform(get("/hs/list"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(3)))
+                .andExpect(jsonPath("$[0].hs_name",is("哈哈")))
+                .andExpect(jsonPath("$[0].key",is("传参成功")))
+                .andExpect(jsonPath("$[1].hs_name",is("第二条事件")))
+                .andExpect(jsonPath("$[1].key",is("无分类")))
+                .andExpect(jsonPath("$[2].hs_name",is("第三条事件")))
+                .andExpect(jsonPath("$[2].key",is("无分类")));
+    }
+
 }

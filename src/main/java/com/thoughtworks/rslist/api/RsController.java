@@ -90,6 +90,12 @@ public class RsController {
     }
 
 
+    @PostMapping("/hs/modify")
+    public void modify_a_hs(@RequestParam(required = false) Integer num, @RequestParam(required = false) String hs_name,@RequestParam(required = false) String key) {
+        if (key!=null){hsList.get(num).setKey(key);}
+        if (hs_name !=null){hsList.get(num).setHs_name(key);}
+    }
+
 
 
 

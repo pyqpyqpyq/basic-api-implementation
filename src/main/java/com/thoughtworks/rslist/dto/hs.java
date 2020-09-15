@@ -3,6 +3,21 @@ package com.thoughtworks.rslist.dto;
 public class hs {
     private String hs_name;
     private String key;
+    private int num;
+
+    public int getNum() {
+        return num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
+    }
+
+    public hs(String hs_name, String key, int num) {
+        this.hs_name = hs_name;
+        this.key = key;
+        this.num = num;
+    }
 
     public hs() {
     }
