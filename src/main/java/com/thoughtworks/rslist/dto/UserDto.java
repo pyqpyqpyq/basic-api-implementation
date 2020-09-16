@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Data
@@ -31,6 +32,7 @@ public class UserDto {
     private String name;
     @NotEmpty
     private String gender;
+    @NotNull
     private Integer age;
     private String email;
     private String phone;
