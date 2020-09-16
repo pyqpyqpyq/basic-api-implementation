@@ -1,6 +1,7 @@
 package com.thoughtworks.rslist.api;
 
 import com.thoughtworks.rslist.dto.Hs;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -67,17 +68,21 @@ public class RsController {
 //        ALL Above based on the hot search is Class of String instead of Hs and has been
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     @GetMapping("/hs/{index}")
-    public Hs get_a_hs(@PathVariable String index) {
-        return hsList.get(Integer.parseInt(index) - 1);
+    public ResponseEntity<Hs> get_a_hs(@PathVariable String index) {
+        return ResponseEntity.ok(hsList.get(Integer.parseInt(index) - 1));
     }
 
     @GetMapping("/hs/rg")
-    public String get_a_list_of_hs(@RequestParam(required = false) Integer start, @RequestParam(required = false) Integer end) {
+    public ResponseEntity<List<Hs>> get_a_list_of_hs(@RequestParam(required = false) Integer start, @RequestParam(required = false) Integer end) {
         if (start == null || end == null) {
-            return hsList.toString();
+            return ResponseEntity.ok(hsList);
         }
-        return hsList.subList(start - 1, end).toString();
+        if (start > end) {
+            return ResponseEntity.status(400).body(hsList);
+        }
+        return ResponseEntity.ok(hsList.subList(start - 1, end));
     }
+
 
     @GetMapping("/hs/list")
     public List<Hs> get_all_hs() {
