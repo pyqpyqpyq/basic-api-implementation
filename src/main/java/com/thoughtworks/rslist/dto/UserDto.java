@@ -11,6 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
+import javax.persistence.MapKeyClass;
 import javax.validation.constraints.*;
 
 @Data
@@ -32,6 +33,7 @@ public class UserDto {
     private String gender;
     @NotNull
     @Min(18)
+    @Max(80)
     private Integer age;
     private String email;
     private String phone;

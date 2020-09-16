@@ -104,9 +104,9 @@ class UserControllerTest {
     }
 
     @Test
-    void age_should_not_less_8() throws Exception {
+    void age_should_not_more_100() throws Exception {
 
-        UserDto userDto = new UserDto("alibaba", "male", 1, "alibaba@twuc.com", "10123456789");
+        UserDto userDto = new UserDto("alibaba", "male", 111, "alibaba@twuc.com", "10123456789");
 
         ObjectMapper objectMapper = new ObjectMapper();
         String userDtoJson = objectMapper.writeValueAsString(userDto);
