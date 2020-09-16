@@ -3,6 +3,7 @@ package com.thoughtworks.rslist.api;
 import com.thoughtworks.rslist.Exception.CommonError;
 import com.thoughtworks.rslist.Exception.MyException;
 import com.thoughtworks.rslist.dto.Hs;
+import com.thoughtworks.rslist.dto.UserDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -124,28 +125,33 @@ public class RsController {
         }
     }
 
+    @PostMapping("/user")
+    public void validate_a_user(@Validated @RequestBody UserDto userDto) {
+        userDto.getName();
+    }
+}
 
-    @ExceptionHandler({IndexOutOfBoundsException.class, MyException.class, MethodArgumentNotValidException.class})
-    public ResponseEntity<CommonError> handleIndexOutOfBoundsException(Exception ex) {
-        if (ex instanceof IndexOutOfBoundsException) {
-            CommonError commonError = new CommonError();
-            commonError.setError("invalid request param");
-            return ResponseEntity.status(400).body(commonError);
-        }
-//        if (ex instanceof MyException){
+//    @ExceptionHandler({IndexOutOfBoundsException.class, MyException.class, MethodArgumentNotValidException.class})
+//    public ResponseEntity<CommonError> handleIndexOutOfBoundsException(Exception ex) {
+//        if (ex instanceof IndexOutOfBoundsException) {
 //            CommonError commonError = new CommonError();
-//            commonError.setError("invalid index");
+//            commonError.setError("invalid request param");
 //            return ResponseEntity.status(400).body(commonError);
 //        }
-        if (ex instanceof MethodArgumentNotValidException){
-            CommonError commonError = new CommonError();
-            commonError.setError("invalid param");
-            return ResponseEntity.status(400).body(commonError);
-        }
-        CommonError commonError = new CommonError();
-        commonError.setError("invalid index");
-        return ResponseEntity.status(400).body(commonError);
-    }
-
-}
+////        if (ex instanceof MyException){
+////            CommonError commonError = new CommonError();
+////            commonError.setError("invalid index");
+////            return ResponseEntity.status(400).body(commonError);
+////        }
+//        if (ex instanceof MethodArgumentNotValidException){
+//            CommonError commonError = new CommonError();
+//            commonError.setError("invalid param");
+//            return ResponseEntity.status(400).body(commonError);
+//        }
+//        CommonError commonError = new CommonError();
+//        commonError.setError("invalid index");
+//        return ResponseEntity.status(400).body(commonError);
+//    }
+//
+//}
 

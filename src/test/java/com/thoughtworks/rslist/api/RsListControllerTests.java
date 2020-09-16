@@ -2,6 +2,7 @@ package com.thoughtworks.rslist.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thoughtworks.rslist.dto.Hs;
+import com.thoughtworks.rslist.dto.UserDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -183,4 +184,19 @@ class RsListControllerTests {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.error",is("invalid param")));
     }
+
+    @Test
+    void should_validate_user() throws Exception {
+        UserDto userDto = new UserDto("alibaba", "male", 19, "a", "10123456789");
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = objectMapper.writeValueAsString(userDto);
+
+        MvcResult mvcResult = mockMvc.perform(post("/user")
+                .content(json).contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+        MockHttpServletResponse response = mvcResult.getResponse();
+        int status = response.getStatus();
+        assertEquals(400, status);
+    }
+
 }
