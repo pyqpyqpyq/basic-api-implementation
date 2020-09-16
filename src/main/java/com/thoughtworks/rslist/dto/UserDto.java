@@ -10,6 +10,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotEmpty;
+
 @Data
 //@AllArgsConstructor
 @NoArgsConstructor
@@ -22,12 +24,13 @@ public class UserDto {
         this.phone = phone;
     }
 
+    @NotEmpty
     private String name;
     private String gender;
     private Integer age;
     private String email;
     private String phone;
-    private Integer vote=10;
+    private Integer vote = 10;
 
 
 }
