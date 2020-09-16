@@ -23,40 +23,42 @@ class RsListControllerTests {
     @Autowired
     MockMvc mockMvc;
 
-    @Test
-    void should_get_a_hs() throws Exception {
-        mockMvc.perform(get("/hs/1"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("第一条事件"));
-        mockMvc.perform(get("/hs/2"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("第二条事件"));
-        mockMvc.perform(get("/hs/3"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("第三条事件"));
-    }
-
-    @Test
-    void should_get_range_of_hs() throws Exception {
-        mockMvc.perform(get("/hs/rg?a=1&b=3"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("[第一条事件, 第二条事件, 第三条事件]"));
-    }
-
-    @Test
-    void should_add_a_hs() throws Exception {
-        mockMvc.perform(get("/hs/list"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(3)));
-
-        mockMvc.perform(post("/hs/event").content("{\"eventName\":\"猪肉涨价了\",\"keyword\":\"经济\"}"))
-                .andExpect(status().isOk());
-
-        mockMvc.perform(get("/hs/list"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(4)));
-    }
-
+//    @Test
+//    void should_get_a_hs() throws Exception {
+//        mockMvc.perform(get("/hs/1"))
+//                .andExpect(status().isOk())
+//                .andExpect(content().string("第一条事件"));
+//        mockMvc.perform(get("/hs/2"))
+//                .andExpect(status().isOk())
+//                .andExpect(content().string("第二条事件"));
+//        mockMvc.perform(get("/hs/3"))
+//                .andExpect(status().isOk())
+//                .andExpect(content().string("第三条事件"));
+//    }
+//
+//    @Test
+//    void should_get_range_of_hs() throws Exception {
+//        mockMvc.perform(get("/hs/rg?a=1&b=3"))
+//                .andExpect(status().isOk())
+//                .andExpect(content().string("[第一条事件, 第二条事件, 第三条事件]"));
+//    }
+//
+//    @Test
+//    void should_add_a_hs() throws Exception {
+//        mockMvc.perform(get("/hs/list"))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$", hasSize(3)));
+//
+//        mockMvc.perform(post("/hs/event").content("{\"eventName\":\"猪肉涨价了\",\"keyword\":\"经济\"}"))
+//                .andExpect(status().isOk());
+//
+//        mockMvc.perform(get("/hs/list"))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$", hasSize(4)));
+//    }
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//        ALL Above based on the hot search is Class of String instead of Hs and has been
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     @Test
     void should_add_hs() throws Exception {
         mockMvc.perform(get("/hs/list"))
@@ -139,4 +141,33 @@ class RsListControllerTests {
                 .andExpect(jsonPath("$[1].key",is("无分类")));
     }
 
+    @Test
+    void add_hs_with_user() throws Exception {
+        mockMvc.perform(get("/hs/list"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(3)))
+                .andExpect(jsonPath("$[0].hs_name",is("第一条事件")))
+                .andExpect(jsonPath("$[0].key",is("无分类")))
+                .andExpect(jsonPath("$[1].hs_name",is("第二条事件")))
+                .andExpect(jsonPath("$[1].key",is("无分类")))
+                .andExpect(jsonPath("$[2].hs_name",is("第三条事件")))
+                .andExpect(jsonPath("$[2].key",is("无分类")));
+
+        Hs hs=new Hs("哈哈","传参成功");
+        ObjectMapper objectMapper=new ObjectMapper();
+        String json=objectMapper.writeValueAsString(hs);
+
+        mockMvc.perform(put("/hs/addwithuser/1")
+                .content(json))
+                .andExpect(status().isOk());
+
+
+        mockMvc.perform(get("/hs/list"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].hs_name",is("第二条事件")))
+                .andExpect(jsonPath("$[0].key",is("无分类")))
+                .andExpect(jsonPath("$[1].hs_name",is("第三条事件")))
+                .andExpect(jsonPath("$[1].key",is("无分类")));
+    }
 }
