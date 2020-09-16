@@ -88,4 +88,32 @@ class UserControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
+
+    @Test
+    void age_should_not_less_8() throws Exception {
+
+        UserDto userDto = new UserDto("alibaba", "male", 1, "alibaba@twuc.com", "10123456789");
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String userDtoJson = objectMapper.writeValueAsString(userDto);
+
+        mockMvc.perform(post("/user/register")
+                .content(userDtoJson)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void age_should_not_less_8() throws Exception {
+
+        UserDto userDto = new UserDto("alibaba", "male", 1, "alibaba@twuc.com", "10123456789");
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String userDtoJson = objectMapper.writeValueAsString(userDto);
+
+        mockMvc.perform(post("/user/register")
+                .content(userDtoJson)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
 }
