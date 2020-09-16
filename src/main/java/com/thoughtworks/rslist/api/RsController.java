@@ -55,8 +55,6 @@ public class RsController {
 //    }
 //    =======================================================================
 
-
-
 //    private List<hs> initList() {
 //        List<String> tempList = new ArrayList<>();
 //        tempList.add("第一条事件");
@@ -65,6 +63,9 @@ public class RsController {
 //        return tempList;
 //    }
 
+    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//        ALL Above based on the hot search is Class of String instead of Hs and has been
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     @GetMapping("/hs/{index}")
     public Hs get_a_hs(@PathVariable String index) {
         return hsList.get(Integer.parseInt(index) - 1);
