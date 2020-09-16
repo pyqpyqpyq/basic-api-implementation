@@ -1,28 +1,15 @@
 package com.thoughtworks.rslist.dto;
 
-public class hs {
+public class Hs {
     private String hs_name;
     private String key;
-    private int num;
 
-    public int getNum() {
-        return num;
+
+
+    public Hs() {
     }
 
-    public void setNum(int num) {
-        this.num = num;
-    }
-
-    public hs(String hs_name, String key, int num) {
-        this.hs_name = hs_name;
-        this.key = key;
-        this.num = num;
-    }
-
-    public hs() {
-    }
-
-    public hs(String hs_name, String key) {
+    public Hs(String hs_name, String key) {
         this.hs_name = hs_name;
         this.key = key;
     }

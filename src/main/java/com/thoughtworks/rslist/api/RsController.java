@@ -1,23 +1,22 @@
 package com.thoughtworks.rslist.api;
 
-import com.thoughtworks.rslist.dto.hs;
+import com.thoughtworks.rslist.dto.Hs;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
 public class RsController {
 
 
-    private List<hs> hsList = init2List();
+    private List<Hs> hsList = init2List();
 
-    private List<hs> init2List() {
-        List<hs> temp2List = new ArrayList<>();
-        temp2List.add(new hs("第一条事件","无分类"));
-        temp2List.add(new hs("第二条事件","无分类"));
-        temp2List.add(new hs("第三条事件","无分类"));
+    private List<Hs> init2List() {
+        List<Hs> temp2List = new ArrayList<>();
+        temp2List.add(new Hs("第一条事件","无分类"));
+        temp2List.add(new Hs("第二条事件","无分类"));
+        temp2List.add(new Hs("第三条事件","无分类"));
         return temp2List;
     }
 //======================================================
@@ -67,7 +66,7 @@ public class RsController {
 //    }
 
     @GetMapping("/hs/{index}")
-    public hs get_a_hs(@PathVariable String index) {
+    public Hs get_a_hs(@PathVariable String index) {
         return hsList.get(Integer.parseInt(index) - 1);
     }
 
@@ -80,20 +79,22 @@ public class RsController {
     }
 
     @GetMapping("/hs/list")
-    public List<hs> get_all_hs() {
+    public List<Hs> get_all_hs() {
         return hsList;
     }
 
     @PostMapping("/hs/event")
-    public void add_a_hs( @RequestBody hs temp) {
+    public void add_a_hs( @RequestBody Hs temp) {
         hsList.add(temp);
     }
 
 
-    @PostMapping("/hs/modify")
-    public void modify_a_hs(@RequestParam(required = false) Integer num, @RequestParam(required = false) String hs_name,@RequestParam(required = false) String key) {
-        if (key!=null){hsList.get(num).setKey(key);}
-        if (hs_name !=null){hsList.get(num).setHs_name(key);}
+    @PutMapping("/hs/modify")
+    public void modify_a_hs(@RequestParam Integer id, @RequestBody Hs hs) {
+        if (id!=null){
+        Hs tem=hsList.get(id-1);
+        if (hs.getKey()!=null){tem.setKey(hs.getKey());}
+        if (hs.getHs_name()!=null){tem.setHs_name(hs.getHs_name());}}
     }
 
 

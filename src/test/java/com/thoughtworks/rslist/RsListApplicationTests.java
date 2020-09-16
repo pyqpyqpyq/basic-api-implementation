@@ -1,5 +1,7 @@
 package com.thoughtworks.rslist;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.thoughtworks.rslist.dto.Hs;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -11,8 +13,7 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -91,13 +92,14 @@ class RsListApplicationTests {
                 .andExpect(jsonPath("$[2].key",is("无分类")));
 
 
-//        int num=1;
-//        String hs_name="哈哈";
-//        String key="传参成功";)
-        mockMvc.perform(post("/hs/modify?a=1&b=哈哈&c=传参成功"))
+
+        Hs hs=new Hs("哈哈","传参成功");
+        ObjectMapper objectMapper=new ObjectMapper();
+        String json=objectMapper.writeValueAsString(hs);
+        mockMvc.perform(put("/hs/modify?id=1").content(json).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
-//
-//        mockMvc.perform(get("/hs/rg?a=1&b=3"))
+
+
         mockMvc.perform(get("/hs/list"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(3)))
