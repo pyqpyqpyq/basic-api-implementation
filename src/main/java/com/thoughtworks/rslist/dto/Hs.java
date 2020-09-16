@@ -1,7 +1,11 @@
 package com.thoughtworks.rslist.dto;
 
+import javax.validation.constraints.NotEmpty;
+
 public class Hs {
+    @NotEmpty
     private String hs_name;
+    @NotEmpty
     private String key;
 
 

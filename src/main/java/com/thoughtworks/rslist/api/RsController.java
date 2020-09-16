@@ -4,6 +4,8 @@ import com.thoughtworks.rslist.Exception.CommonError;
 import com.thoughtworks.rslist.Exception.MyException;
 import com.thoughtworks.rslist.dto.Hs;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -97,7 +99,7 @@ public class RsController {
     }
 
     @PostMapping("/hs/event")
-    public void add_a_hs(@RequestBody Hs temp) {
+    public void add_a_hs(@Validated @RequestBody Hs temp) {
         hsList.add(temp);
     }
 
@@ -123,18 +125,26 @@ public class RsController {
     }
 
 
-    @ExceptionHandler({IndexOutOfBoundsException.class, MyException.class})
+    @ExceptionHandler({IndexOutOfBoundsException.class, MyException.class, MethodArgumentNotValidException.class})
     public ResponseEntity<CommonError> handleIndexOutOfBoundsException(Exception ex) {
         if (ex instanceof IndexOutOfBoundsException) {
             CommonError commonError = new CommonError();
             commonError.setError("invalid request param");
             return ResponseEntity.status(400).body(commonError);
         }
-        if (ex instanceof MyException){
+//        if (ex instanceof MyException){
+//            CommonError commonError = new CommonError();
+//            commonError.setError("invalid index");
+//            return ResponseEntity.status(400).body(commonError);
+//        }
+        if (ex instanceof MethodArgumentNotValidException){
             CommonError commonError = new CommonError();
-            commonError.setError("invalid index");
+            commonError.setError("invalid param");
             return ResponseEntity.status(400).body(commonError);
         }
+        CommonError commonError = new CommonError();
+        commonError.setError("invalid index");
+        return ResponseEntity.status(400).body(commonError);
     }
 
 }

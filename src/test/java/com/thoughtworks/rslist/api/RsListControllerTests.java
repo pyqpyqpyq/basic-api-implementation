@@ -171,4 +171,16 @@ class RsListControllerTests {
         int status = response.getStatus();
         assertEquals(203, status);
     }
+
+    @Test
+    void should_no_add_a_rs_event_when_name_empty() throws Exception {
+        Hs hs= new Hs(null,"异常");
+        ObjectMapper objectMapper=new ObjectMapper();
+        String json=objectMapper.writeValueAsString(hs);
+
+        mockMvc.perform(post("/hs/event")
+                .content(json).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error",is("invalid param")));
+    }
 }
