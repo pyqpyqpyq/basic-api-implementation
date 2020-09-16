@@ -1,4 +1,4 @@
-package com.thoughtworks.rslist;
+package com.thoughtworks.rslist.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thoughtworks.rslist.dto.Hs;
@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class RsListApplicationTests {
+class RsListControllerTests {
 
     @Autowired
     MockMvc mockMvc;
@@ -96,7 +96,9 @@ class RsListApplicationTests {
         Hs hs=new Hs("哈哈","传参成功");
         ObjectMapper objectMapper=new ObjectMapper();
         String json=objectMapper.writeValueAsString(hs);
-        mockMvc.perform(put("/hs/modify?id=1").content(json).contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(put("/hs/modify?id=1")
+                .content(json)
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
 
