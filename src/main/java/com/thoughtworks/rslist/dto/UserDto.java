@@ -27,9 +27,9 @@ public class UserDto {
     }
 
     @NotEmpty
-    @Length
     @Size(max = 8)
     private String name;
+    @NotEmpty
     private String gender;
     private Integer age;
     private String email;
