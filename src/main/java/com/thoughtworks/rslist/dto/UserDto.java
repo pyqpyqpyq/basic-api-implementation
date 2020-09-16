@@ -35,7 +35,9 @@ public class UserDto {
     @Min(18)
     @Max(80)
     private Integer age;
+    @Email
     private String email;
+    @NotEmpty
     private String phone;
     private Integer vote = 10;
 
