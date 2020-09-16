@@ -97,7 +97,11 @@ public class RsController {
         if (hs.getHs_name()!=null){tem.setHs_name(hs.getHs_name());}}
     }
 
-
+    @DeleteMapping("/hs/delete/{index}")
+    public void delete_a_hs(@PathVariable Integer index) {
+        if (index!=null){
+            hsList.remove(index-1);}
+    }
 
 
 

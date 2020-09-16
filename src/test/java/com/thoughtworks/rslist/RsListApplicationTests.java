@@ -111,4 +111,30 @@ class RsListApplicationTests {
                 .andExpect(jsonPath("$[2].key",is("无分类")));
     }
 
+    @Test
+    void should_delete_hs() throws Exception {
+        mockMvc.perform(get("/hs/list"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(3)))
+                .andExpect(jsonPath("$[0].hs_name",is("第一条事件")))
+                .andExpect(jsonPath("$[0].key",is("无分类")))
+                .andExpect(jsonPath("$[1].hs_name",is("第二条事件")))
+                .andExpect(jsonPath("$[1].key",is("无分类")))
+                .andExpect(jsonPath("$[2].hs_name",is("第三条事件")))
+                .andExpect(jsonPath("$[2].key",is("无分类")));
+
+
+
+        mockMvc.perform(delete("/hs/delete/1")).andExpect(status().isOk());
+
+
+        mockMvc.perform(get("/hs/list"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].hs_name",is("第二条事件")))
+                .andExpect(jsonPath("$[0].key",is("无分类")))
+                .andExpect(jsonPath("$[1].hs_name",is("第三条事件")))
+                .andExpect(jsonPath("$[1].key",is("无分类")));
+    }
+
 }
