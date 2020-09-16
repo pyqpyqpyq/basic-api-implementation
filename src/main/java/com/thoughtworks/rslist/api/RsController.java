@@ -1,5 +1,7 @@
 package com.thoughtworks.rslist.api;
 
+import com.thoughtworks.rslist.Exception.CommonError;
+import com.thoughtworks.rslist.Exception.MyException;
 import com.thoughtworks.rslist.dto.Hs;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +17,9 @@ public class RsController {
 
     private List<Hs> init2List() {
         List<Hs> temp2List = new ArrayList<>();
-        temp2List.add(new Hs("第一条事件","无分类"));
-        temp2List.add(new Hs("第二条事件","无分类"));
-        temp2List.add(new Hs("第三条事件","无分类"));
+        temp2List.add(new Hs("第一条事件", "无分类"));
+        temp2List.add(new Hs("第二条事件", "无分类"));
+        temp2List.add(new Hs("第三条事件", "无分类"));
         return temp2List;
     }
 //======================================================
@@ -68,8 +70,13 @@ public class RsController {
 //        ALL Above based on the hot search is Class of String instead of Hs and has been
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     @GetMapping("/hs/{index}")
-    public ResponseEntity<Hs> get_a_hs(@PathVariable String index) {
-        return ResponseEntity.ok(hsList.get(Integer.parseInt(index) - 1));
+    public ResponseEntity<Hs> get_a_hs(@PathVariable Integer index) throws MyException {
+        if (index >= 3 || index >= 1) {
+            return ResponseEntity.ok(hsList.get(index - 1));
+        }
+        throw new MyException();
+
+
     }
 
     @GetMapping("/hs/rg")
@@ -77,8 +84,8 @@ public class RsController {
         if (start == null || end == null) {
             return ResponseEntity.ok(hsList);
         }
-        if (start > end) {
-            return ResponseEntity.status(400).body(hsList);
+        if (start > 0 && start <= hsList.size() && end <= hsList.size() && end <= hsList.size()) {
+            throw new IndexOutOfBoundsException();
         }
         return ResponseEntity.ok(hsList.subList(start - 1, end));
     }
@@ -90,31 +97,45 @@ public class RsController {
     }
 
     @PostMapping("/hs/event")
-    public void add_a_hs( @RequestBody Hs temp) {
+    public void add_a_hs(@RequestBody Hs temp) {
         hsList.add(temp);
     }
 
 
     @PutMapping("/hs/modify")
     public void modify_a_hs(@RequestParam Integer id, @RequestBody Hs hs) {
-        if (id!=null){
-        Hs tem=hsList.get(id-1);
-        if (hs.getKey()!=null){tem.setKey(hs.getKey());}
-        if (hs.getHs_name()!=null){tem.setHs_name(hs.getHs_name());}}
+        if (id != null) {
+            Hs tem = hsList.get(id - 1);
+            if (hs.getKey() != null) {
+                tem.setKey(hs.getKey());
+            }
+            if (hs.getHs_name() != null) {
+                tem.setHs_name(hs.getHs_name());
+            }
+        }
     }
 
     @DeleteMapping("/hs/delete/{index}")
     public void delete_a_hs(@PathVariable Integer index) {
-        if (index!=null){
-            hsList.remove(index-1);}
+        if (index != null) {
+            hsList.remove(index - 1);
+        }
     }
 
 
-
-
-
-
-
+    @ExceptionHandler({IndexOutOfBoundsException.class, MyException.class})
+    public ResponseEntity<CommonError> handleIndexOutOfBoundsException(Exception ex) {
+        if (ex instanceof IndexOutOfBoundsException) {
+            CommonError commonError = new CommonError();
+            commonError.setError("invalid request param");
+            return ResponseEntity.status(400).body(commonError);
+        }
+        if (ex instanceof MyException){
+            CommonError commonError = new CommonError();
+            commonError.setError("invalid index");
+            return ResponseEntity.status(400).body(commonError);
+        }
+    }
 
 }
 

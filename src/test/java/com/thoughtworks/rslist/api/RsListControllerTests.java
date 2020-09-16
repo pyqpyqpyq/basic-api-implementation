@@ -166,7 +166,7 @@ class RsListControllerTests {
 
     @Test
     void should_get_range_of_hs() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(get("hs/list")).andReturn();
+        MvcResult mvcResult = mockMvc.perform(get("/hs/list")).andReturn();
         MockHttpServletResponse response = mvcResult.getResponse();
         int status = response.getStatus();
         assertEquals(203, status);
