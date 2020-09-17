@@ -48,7 +48,7 @@ class UserControllerTest {
     }
 
     @Test
-    void name_should_less_than_8() throws Exception {
+    void name_length_should_not_more_than_8() throws Exception {
 
         UserDto userDto = new UserDto("alibababab", "female", 20, "alibaba@twuc.com", "10123456789");
 
@@ -90,7 +90,7 @@ class UserControllerTest {
     }
 
     @Test
-    void age_should_not_less_8() throws Exception {
+    void age_should_not_less_18() throws Exception {
 
         UserDto userDto = new UserDto("alibaba", "male", 1, "alibaba@twuc.com", "10123456789");
 
@@ -118,7 +118,7 @@ class UserControllerTest {
     }
 
     @Test
-    void email_format() throws Exception {
+    void email_format_check() throws Exception {
 
         UserDto userDto = new UserDto("alibaba", "male", 19, "hhh", "10123456789");
 
