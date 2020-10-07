@@ -1,10 +1,9 @@
 package com.thoughtworks.rslist.api;
 
-import com.thoughtworks.rslist.dto.RsEvent;
+import com.thoughtworks.rslist.dto.Hs;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @RequestMapping(path="/rs", produces = "application/json; charset=utf-8")
