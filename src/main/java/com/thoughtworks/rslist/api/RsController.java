@@ -1,6 +1,7 @@
 package com.thoughtworks.rslist.api;
 
 import com.thoughtworks.rslist.dto.Hs;
+import com.thoughtworks.rslist.dto.RsEvent;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -24,8 +25,10 @@ public class RsController {
   public RsEvent updateRsEvent(@RequestBody RsEvent rsEvent, @PathVariable int index){
     index--;
     validateIndex(index);
-    rsList.set(index,rsEvent);
-    return rsEvent;
+    RsEvent oldRsEvent = rsList.get(index);
+    RsEvent newRsEvent = oldRsEvent.merge(rsEvent);
+    rsList.set(index, newRsEvent);
+    return newRsEvent;
   }
 
   @DeleteMapping("/event/{index}")
